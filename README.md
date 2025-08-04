@@ -1,4 +1,4 @@
-# TkMid
+# TkMid - Coming Soon
 Touchscreen Midi controller software
 
 Tkinter MIDI Controller
