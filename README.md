@@ -1,4 +1,4 @@
-# TkMid
+# Midtk
 <img width="727" height="652" alt="image" src="https://github.com/user-attachments/assets/14a39f5d-55e2-4a0d-b600-b55358cc7dd7" />
 
 A Tkinter-based virtual MIDI controller that lets you create, drag, resize, and configure sliders, buttons, and radio groups for real-time MIDI control.
@@ -142,8 +142,8 @@ MIT License – free to use and modify.
 
 To run on a Raspberry Pi you need to create a new python env
 
-python3 -m venv tkmid
-source tkmid/bin/activate
+python3 -m venv midtk
+source midtk/bin/activate
 python3 tkmid.py
 
 Make sure you lock the canvas when using as touchscreen. 
