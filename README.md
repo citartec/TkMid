@@ -4,7 +4,7 @@
 A Tkinter-based virtual MIDI controller that lets you create, drag, resize, and configure sliders, buttons, and radio groups for real-time MIDI control.
 All widgets can now send and receive MIDI messages, meaning they update in real time when matching messages are received from an external MIDI device. 
 
-Will run on any Linux, Windows that has Python installed. will also run on the Raspberry Pi OS  
+Will run on any Linux and Windows that has Python installed. Will also run on the Raspberry Pi OS, i've not tired Mac but most likely if you install python
 
 Features
 
