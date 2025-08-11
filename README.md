@@ -1,4 +1,5 @@
 # TkMid
+<img width="727" height="652" alt="image" src="https://github.com/user-attachments/assets/14a39f5d-55e2-4a0d-b600-b55358cc7dd7" />
 
 A Tkinter-based virtual MIDI controller that lets you create, drag, resize, and configure sliders, buttons, and radio groups for real-time MIDI control.
 All widgets can now send and receive MIDI messages, meaning they update in real time when matching messages are received from an external MIDI device.
