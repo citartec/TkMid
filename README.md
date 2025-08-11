@@ -147,3 +147,5 @@ source midtk/bin/activate
 python3 tkmid.py
 
 Make sure you lock the canvas when using as touchscreen. 
+
+If you create a bunch of sliders, make sure to change the cc numbers before touching the sliders or a feedback loop start if you are sending the midi internally and not to an outside source. 
