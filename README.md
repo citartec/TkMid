@@ -1,28 +1,26 @@
-# TkMid -
-
-A Tkinter-based virtual MIDI controller that lets you create, drag, resize, and configure sliders, buttons, and radio groups for real-time MIDI control.
-All controls can send MIDI messages, receive external MIDI input, and be saved/loaded in a JSON configuration.
+# TkMidA Tkinter-based virtual MIDI controller that lets you create, drag, resize, and configure sliders, buttons, and radio groups for real-time MIDI control.
+All widgets can now send and receive MIDI messages, meaning they update in real time when matching messages are received from an external MIDI device.
 Features
 
     Spawnable widgets
 
-        Sliders – Send CC, Note, Pitch Bend, or Aftertouch messages.
+        Sliders – Send and receive CC, Note, Pitch Bend, or Aftertouch.
 
-        Buttons – Latch or momentary mode, customizable MIDI settings.
+        Buttons – Latch or momentary mode, now sync from incoming MIDI.
 
-        Radio Groups – Mutually exclusive buttons for waveform/type selection or other discrete values.
+        Radio Groups – Mutually exclusive buttons, now auto-select when matching MIDI messages arrive.
 
-    Draggable & resizable controls with grid snapping.
+    Drag & resize controls with grid snapping.
+
+    Scrollable, zoomable canvas with large touch-friendly scrollbars.
 
     Context menus (right-click) for configuration, duplication, or deletion.
 
-    Scrollable canvas with touch-friendly scrollbars.
+    Save/load setups to JSON (keeps widget positions, sizes, and settings).
 
-    Save/load setups to .json (preserves widget positions, sizes, and settings).
+    Full MIDI input sync for sliders, buttons, and radio groups.
 
-    External MIDI input sync – Sliders update when receiving matching MIDI messages.
-
-    Customizable colors & layout constants at the top of the script.
+    Customizable colors & UI constants at the top of the script.
 
 Requirements
 
@@ -30,9 +28,9 @@ Requirements
 
     mido
 
-    A backend for mido (e.g., python-rtmidi)
+    python-rtmidi (or other mido backend)
 
-    Tkinter (comes with most Python installs)
+    Tkinter (usually included with Python)
 
 Install dependencies:
 
@@ -40,13 +38,13 @@ pip install mido python-rtmidi
 
 Usage
 
-Run:
+Run the app:
 
 python MidTk0.4.py
 
 On launch:
 
-    The app auto-creates a default slider (optional).
+    A default slider is spawned (can be disabled in code).
 
     Right-click the background to:
 
@@ -56,72 +54,81 @@ On launch:
 
         Lock/Unlock Controls
 
-        Select MIDI Input/Output Ports
+        Select MIDI Input/Output ports
 
-Controls
+Widget Details
 Sliders
-
-    Editable name and MIDI settings.
 
     Sends MIDI on movement.
 
-    Updates in real time when matching MIDI messages are received.
+    Updates when matching external MIDI messages are received.
+
+    Supports:
+
+        CC
+
+        Note
+
+        Pitch Bend (full ±8192 range mapped to 0–127)
+
+        Aftertouch
 
 Buttons
 
-    Momentary or latch mode.
+    Latch mode – toggles on/off when triggered.
 
-    Customizable MIDI mode, channel, and control/note number.
+    Momentary mode – active while pressed or while incoming value > 0.
+
+    Now update from external MIDI input:
+
+        CC: follows value (≥64 = ON in latch mode)
+
+        Note On/Off: momentary or latch toggle
+
+        Aftertouch: momentary intensity
 
 Radio Groups
 
     One selected button at a time.
 
-    Fully editable labels and MIDI mappings.
-
     Vertical or horizontal layout.
+
+    Now auto-select when receiving matching CC/Note for one of its buttons.
 
 Saving & Loading
 
-    Save Setup – Creates a JSON file with all widgets, their positions, sizes, and settings.
+    Save Setup – Saves all widgets, positions, sizes, and MIDI settings to .json.
 
-    Load Setup – Restores from a saved JSON.
+    Load Setup – Restores saved layout and settings.
 
-    Both are accessible from the right-click background menu.
+    Found in right-click background menu.
 
-Shortcuts / Interactions
+MIDI Input Sync Logic
 
-    Right-click a control → Configure, duplicate, or delete it.
+    Sliders – Update value directly from matching incoming CC/Note/Pitch Bend/Aftertouch.
 
-    Drag by clicking and holding on a widget's frame.
+    Buttons – Follow CC or Note On/Off values, latch or momentary as configured.
 
-    Resize using the small bottom-right corner grip.
+    Radio Groups – Selects the option with a control/note number matching the incoming MIDI message.
 
-    Grid snapping keeps layouts tidy.
+Shortcuts & Interactions
+
+    Right-click background → Add widgets, save/load, lock/unlock, change ports.
+
+    Right-click widget → Configure MIDI, rename, duplicate, delete.
+
+    Drag to move; bottom-right corner grip to resize.
+
+    Grid snapping keeps layout tidy.
 
 Notes
 
-    Make sure a valid MIDI output port is selected, or messages will not send.
+    Ensure a valid MIDI output port is selected to send messages.
 
-    Pitch Bend sliders use full MIDI pitch range (-8192 to 8191) mapped to 0–127.
+    External MIDI sync works for all widget types.
 
-    External MIDI sync only affects sliders (buttons and radio groups do not respond yet).
+    The app uses JSON for state persistence.
 
 License
 
 MIT License – free to use and modify.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
