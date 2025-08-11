@@ -6,6 +6,11 @@ All widgets can now send and receive MIDI messages, meaning they update in real 
 
 Will run on any Linux and Windows that has Python installed. Will also run on the Raspberry Pi OS, i've not tired Mac but most likely if you install python
 
+Left click on the edge of widgets to move them, they will snap to a grid.  
+Right click on the widgets to get midi options and other things (Radio buttons need a right click on the actual buttons)
+Right click on the background to create new sliders, buttons, set midi in and out. 
+
+
 Features
 
     Spawnable widgets
