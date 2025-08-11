@@ -435,7 +435,23 @@ class MidiButtonFrame(tk.Frame):
         self.button.bind("<ButtonRelease-1>", self.on_release)
         self.button.bind("<Button-3>", self.show_context_menu)
         self.bind("<Button-3>", self.show_context_menu)
-
+    
+    def set_from_midi(self, value: int):
+        """Update button UI/state from incoming MIDI *without* sending MIDI back."""
+        v = int(value)
+        if self.latch_mode.get():
+            # Latch follows value >= 64
+            self.latched = (v >= 64)
+            self.button.config(
+                bg=COL_BTN_LATCHED if self.latched else COL_BTN_DEFAULT,
+                activebackground=COL_BTN_LATCHED if self.latched else COL_BTN_DEFAULT
+            )
+        else:
+            # Momentary: >0 = down, 0 = up
+            if v > 0:
+                self.button.config(relief="sunken")
+            else:
+                self.button.config(relief="flat")
     def on_press(self, event):
         if self.latch_mode.get():
             self.latched = not self.latched
@@ -576,6 +592,17 @@ class MidiRadioGroupFrame(tk.Frame):
         for btn in self.buttons:
             btn.bind("<Button-3>", self.show_context_menu)
 
+    def select_index_external(self, idx: int):
+        """Programmatically select without sending MIDI (no echo)."""
+        self.selected.set(idx)
+        # Radiobuttons reflect IntVar automatically
+
+    def set_from_midi(self, control_number: int):
+        """Select the radio whose mapped control/note matches."""
+        for idx, (_label, ctrl) in self.control_map.items():
+            if ctrl == int(control_number):
+                self.select_index_external(idx)
+                break
     def send_midi(self):
         try:
             idx = self.selected.get()
@@ -983,8 +1010,11 @@ def listen_midi_input():
             with mido.open_input(selected_input_port.get()) as midi_in:
                 print(f"Listening for MIDI input on: {selected_input_port.get()}")
                 for msg in midi_in:
-                    if msg.type not in ("control_change", "note_on", "pitchwheel", "aftertouch"):
+                    # Allow the types we handle
+                    if msg.type not in ("control_change", "note_on", "note_off", "pitchwheel", "aftertouch"):
                         continue
+
+                    # ---------- SLIDERS (existing) ----------
                     for entry in sliders:
                         mode = entry["mode"].get()
                         ch = int(entry["channel"].get()) - 1
@@ -995,13 +1025,48 @@ def listen_midi_input():
                             entry["slider"].set(msg.value)
                         elif msg.type == "note_on" and mode == "Note" and msg.note == ctrl:
                             entry["slider"].set(msg.velocity)
+                        elif msg.type == "note_off" and mode == "Note" and msg.note == ctrl:
+                            entry["slider"].set(0)
                         elif msg.type == "pitchwheel" and mode == "Pitch Bend":
                             val = int(((msg.pitch + 8192) / 16383.0) * 127)
                             entry["slider"].set(val)
                         elif msg.type == "aftertouch" and mode == "Aftertouch":
                             entry["slider"].set(msg.value)
+
+                    # ---------- BUTTONS (NEW) ----------
+                    for btn in buttons:
+                        mode = btn.mode.get()
+                        ch = int(btn.channel.get()) - 1
+                        ctrl = int(btn.control.get())
+                        if msg.channel != ch:
+                            continue
+                        if msg.type == "control_change" and mode == "CC" and msg.control == ctrl:
+                            btn.set_from_midi(msg.value)
+                        elif msg.type == "note_on" and mode == "Note" and msg.note == ctrl:
+                            btn.set_from_midi(msg.velocity)
+                        elif msg.type == "note_off" and mode == "Note" and msg.note == ctrl:
+                            btn.set_from_midi(0)
+                        elif msg.type == "aftertouch" and mode == "Aftertouch":
+                            # Treat aftertouch value like a momentary amount
+                            btn.set_from_midi(msg.value)
+
+                    # ---------- RADIO GROUPS (NEW) ----------
+                    for rg in radio_groups:
+                        group = rg["group"]
+                        mode = group.mode.get()
+                        ch = int(group.channel.get()) - 1
+                        if msg.channel != ch:
+                            continue
+                        if msg.type == "control_change" and mode == "CC":
+                            # choose by control number
+                            group.set_from_midi(msg.control)
+                        elif msg.type == "note_on" and mode == "Note":
+                            # choose by note number
+                            group.set_from_midi(msg.note)
+                        # note_off not needed for radio selection (selection is sticky)
         except Exception as e:
             print("MIDI input error:", e)
+
 
     threading.Thread(target=midi_loop, daemon=True).start()
 
