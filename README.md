@@ -20,6 +20,13 @@ Group boxes are used to group sliders, buttons and radio buttons. While unlock c
 
 Requirements
 ------------
+
 Python 3.11.13
+
 pip install mido
+
 pip install python-rtmidi
+
+Then run the python file,
+
+python3 MidTk0.4.5.py
