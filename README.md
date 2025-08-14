@@ -1,163 +1,62 @@
-# Midtk
-<img width="727" height="652" alt="image" src="https://github.com/user-attachments/assets/14a39f5d-55e2-4a0d-b600-b55358cc7dd7" />
+MidTk
 
-<img width="582" height="760" alt="image" src="https://github.com/user-attachments/assets/daaca645-de0a-4334-b1e5-1f72dd9dcd18" />
+A Python-based MIDI controller GUI.
 
+Overview
 
-A Tkinter-based virtual MIDI controller that lets you create, drag, resize, and configure sliders, buttons, and radio groups for real-time MIDI control.
-All widgets can now send and receive MIDI messages, meaning they update in real time when matching messages are received from an external MIDI device. 
-
-Will run on any Linux and Windows that has Python installed. Will also run on the Raspberry Pi OS, i've not tired Mac but most likely if you install python
-
-Left click on the edge of widgets to move them, they will snap to a grid.  
-Right click on the widgets to get midi options and other things (Radio buttons need a right click on the actual buttons)
-Right click on the background to create new sliders, buttons, set midi in and out. 
-
+MidTk lets you build and customize your own MIDI controller using sliders, buttons, and radio button groups.
+All elements can be resized, positioned, grouped, saved, and reloaded.
+It works with any MIDI-compatible device and can both send and receive MIDI messages.
 
 Features
 
-    Spawnable widgets
+SlidersMidTk
 
-        Sliders – Send and receive CC, Note, Pitch Bend, or Aftertouch.
+MidTk is a flexible, Python-based MIDI controller application that lets you design your own control surface exactly the way you want it. Whether you need sliders, buttons, or radio button groups, you can create, position, and resize each element to fit your workflow. Every control is fully configurable, allowing you to set MIDI channels, CC numbers, notes, pitch bend, aftertouch, and custom labels.
 
-        Buttons – Latch or momentary mode.
+Sliders give you precise control over parameters and can be assigned to any supported MIDI message type. Buttons can be set to momentary or latch modes, perfect for triggering samples, toggling effects, or switching states. Radio button groups are ideal for selecting between mutually exclusive settings, such as synth waveforms—MidTk automatically assigns the correct values to each button based on the number of options.
 
-        Radio Groups – Mutually exclusive buttons, now auto-select when matching MIDI messages arrive.
+To organize complex layouts, you can group controls into a movable, resizable group box. Groups can be duplicated in seconds, making it easy to build multiple sections with consistent settings. Once your layout is complete, you can save it for later use or reload previous setups instantly.
 
-    Drag & resize controls with grid snapping.
-
-    Scrollable, zoomable canvas with large touch-friendly scrollbars.
-
-    Context menus (right-click) for configuration, duplication, or deletion.
-
-    Save/load setups to JSON (keeps widget positions, sizes, and settings).
-
-    Full MIDI input sync for sliders, buttons, and radio groups.
-
-    Customizable colors & UI constants at the top of the script.
+MidTk automatically detects connected MIDI devices and works with any hardware or software that accepts MIDI input. It supports both sending and receiving MIDI, making it suitable for live performance, studio work, or hardware control. Although it runs perfectly inside a Conda environment, Conda is not required.
 
 Requirements
 
-    Python 3.8+
+Python 3.11.13
 
-    mido
-
-    python-rtmidi (or other mido backend)
-
-    Tkinter (usually included with Python)
-
-Install dependencies:
-
-pip install mido python-rtmidi
-
-Usage
-
-Run the app:
-
-python MidTk0.4.py
-
-On launch:
-
-    A default slider is spawned (can be disabled in code).
-
-    Right-click the background to:
-
-        Add Slider, Button, or Radio Group
-
-        Save/Load Setup
-
-        Lock/Unlock Controls
-
-        Select MIDI Input/Output ports
-
-Widget Details
-Sliders
-
-    Sends MIDI on movement.
-
-    Updates when matching external MIDI messages are received.
-
-    Supports:
-
-        CC
-
-        Note
-
-        Pitch Bend (full ±8192 range mapped to 0–127)
-
-        Aftertouch
+mido and python-rtmidi
+Adjustable channel, CC number, note, pitch bend, aftertouch, and name.
 
 Buttons
 
-    Latch mode – toggles on/off when triggered.
+Adjustable channel, CC number, note, and name.
 
-    Momentary mode – active while pressed or while incoming value > 0.
+Supports momentary or latch modes.
 
-    Now update from external MIDI input:
+Radio Button Groups
 
-        CC: follows value (≥64 = ON in latch mode)
+Adjustable channel, CC number, or note for the group.
 
-        Note On/Off: momentary or latch toggle
+Automatic value assignment based on the number of buttons.
 
-        Aftertouch: momentary intensity
+Useful for parameter changes such as waveform selection.
 
-Radio Groups
+Group Boxes
 
-    One selected button at a time.
+Group multiple controls together.
 
-    Vertical or horizontal layout.
+Duplicate and reposition groups.
 
-    Now auto-select when receiving matching CC/Note for one of its buttons.
+Other
 
-Saving & Loading
+Save and load complete setups.
 
-    Save Setup – Saves all widgets, positions, sizes, and MIDI settings to .json.
+Auto-detects MIDI devices.
 
-    Load Setup – Restores saved layout and settings.
+Real-time MIDI send and receive.
 
-    Found in right-click background menu.
+Requirements
 
-MIDI Input Sync Logic
+Python 3.11.13
 
-    Sliders – Update value directly from matching incoming CC/Note/Pitch Bend/Aftertouch.
-
-    Buttons – Follow CC or Note On/Off values, latch or momentary as configured.
-
-    Radio Groups – Selects the option with a control/note number matching the incoming MIDI message.
-
-Shortcuts & Interactions
-
-    Right-click background → Add widgets, save/load, lock/unlock, change ports.
-
-    Right-click widget → Configure MIDI, rename, duplicate, delete.
-
-    Drag to move; bottom-right corner grip to resize.
-
-    Grid snapping keeps layout tidy.
-
-Notes
-
-    Ensure a valid MIDI output port is selected to send messages.
-
-    External MIDI sync works for all widget types.
-
-    The app uses JSON for state persistence.
-
-License
-
-MIT License – free to use and modify.
-
-
-To run on a Raspberry Pi you need to create a new python env
-
-python3 -m venv midtk
-
-source midtk/bin/activate
-
-python3 tkmid.py
-
-Make sure you lock the canvas when using as touchscreen. 
-
-If you create a bunch of sliders, make sure to change the cc numbers before touching the sliders or a feedback loop will start. 
-
-This happens if you are sending the midi internally and not to an outside source. 
+Python packages:
