@@ -14,7 +14,6 @@ How to use
 Right click on the background to create, save, load, select midi port and lock controls. Another right click on the sliders, buttons, radio group and group boxes will bring up the midi options and group options. 
 
 If you right click then click unlock controls, it will bring up resize options and you can move things around. 
-<img width="1256" height="665" alt="Screenshot from 2025-08-14 17-09-20" src="https://github.com/user-attachments/assets/2817f9da-e888-4f3a-87a5-6b599fc976a5" />
 
 Groups
 -------
