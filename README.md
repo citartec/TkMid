@@ -2,6 +2,8 @@ MidTk - A Python-based MIDI controller GUI.
 
 <img width="1256" height="665" alt="image" src="https://github.com/user-attachments/assets/bf220d8c-3526-4561-a93a-91c1e0f01f85" />
 
+https://github.com/user-attachments/assets/b7568fcd-7d10-422b-a276-5920cdd2e831
+
 Overview
 --------
 MidTk lets you build and customize your own MIDI controller using sliders, buttons, and radio button groups.
