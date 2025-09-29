@@ -19,6 +19,8 @@ Groups
 -------
 Group boxes are used to group sliders, buttons and radio buttons. While unlock controls is selected you can drag these boxes over a layout you want to group and then press "recompute members" to create a group and use "recompute members" any time you want to add things to the group. You can also Duplicate groups.
 
+4.9 will now assign midi numbers as you build your scenes. This saves a lot of time when building. 
+
 Requirements
 ------------
 
