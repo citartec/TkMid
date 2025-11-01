@@ -47,7 +47,7 @@ pip install mido
 
 pip install python-rtmidi
 
-python3 MidTk0.4.9.py
+python MidTk0.4.9.py
 
 press enter
 
