@@ -33,3 +33,22 @@ pip install python-rtmidi
 Then run the python file,
 
 python3 MidTk0.4.5.py
+
+
+------- how to run on windows -------
+
+ https://www.geeksforgeeks.org/installation-guide/how-to-install-conda-in-windows/ (this is like a walled garden that protects your core system)
+
+open conda and input each line and press enter. 
+
+conda create --name midtk python=3.11
+
+pip install mido
+
+pip install python-rtmidi
+
+python3 MidTk0.4.9.py
+
+press enter
+
+(make sure you have the correct location of the MidTk0.4.9.py [drag it into the conda window]) 
